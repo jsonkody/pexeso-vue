@@ -1,0 +1,29 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-asap: 'Asap', sans-serif;
+}
+
+@utility perspective-800 {
+  perspective: 800px;
+}
+
+@utility transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+@utility backface-hidden {
+  backface-visibility: hidden;
+}
+
+@utility rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+@utility rd {
+  outline: 1px solid red !important;
+}
+
+@utility trans {
+  @apply transition duration-150;
+}
