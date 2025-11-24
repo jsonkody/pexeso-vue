@@ -18,7 +18,7 @@ const bgImage = computed(() => `url('/images/logos/${props.card.value}.png')`)
       :class="{ 'rotate-y-180': card.isFlipped || card.isMatched, 'invisible': card.isMatched && false }"
     >
       <div
-        class="absolute w-full h-full backface-hidden rounded-lg bg-indigo-900 shadow-inner"
+        class="absolute w-full h-full trans hover:scale-105 hover:saturate-200 backface-hidden rounded-lg bg-indigo-900 shadow-inner"
         style="background-color: #371daa; background-image: url('/images/pexeso.png'); background-repeat: no-repeat; background-position: center; background-size: cover;"
       >
       </div>
