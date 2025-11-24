@@ -145,20 +145,40 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function checkMatch() {
-    const [c1, c2] = flippedCards.value
+    // 1. Ochrana: Pokud z nějakého důvodu nejsou 2 karty, skončíme
+    if (flippedCards.value.length !== 2) return
+
+    // 2. Bezpečné rozbalení: TS teď ví, že pole má délku 2, ale pro jistotu typování:
+    const c1 = flippedCards.value[0]
+    const c2 = flippedCards.value[1]
+
+    // 3. Další ochrana (pro TS satisfakci), kdyby v poli bylo undefined
+    if (!c1 || !c2) return
 
     const turnDuration = (Date.now() - turnStartTime.value) / 1000
+
+    // 4. Bezpečná aktualizace času hráče
     if (!isFreePlay.value) {
-      players.value[currentPlayerIndex.value].totalTime += turnDuration
+      const currentPlayerObj = players.value[currentPlayerIndex.value]
+      // Pokud hráč existuje (což by měl), přičteme čas
+      if (currentPlayerObj) {
+        currentPlayerObj.totalTime += turnDuration
+      }
     }
+
     turnStartTime.value = Date.now()
 
     if (c1.value === c2.value) {
       setTimeout(() => {
+        // Tady už TS ví, že c1 a c2 existují díky podmínce nahoře
         c1.isMatched = true
         c2.isMatched = true
         flippedCards.value = []
-        players.value[currentPlayerIndex.value].score++
+
+        // Bezpečné přičtení skóre
+        const p = players.value[currentPlayerIndex.value]
+        if (p) p.score++
+
         audioCoin.currentTime = 0
         audioCoin.play().catch(() => {})
 
@@ -173,7 +193,7 @@ export const useGameStore = defineStore('game', () => {
         flippedCards.value = []
 
         if (!isFreePlay.value) {
-          currentPlayerIndex.value = (currentPlayerIndex.value + 1) % players.value.length
+            currentPlayerIndex.value = (currentPlayerIndex.value + 1) % players.value.length
         }
       }, 1200)
     }

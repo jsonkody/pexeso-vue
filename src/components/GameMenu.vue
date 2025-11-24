@@ -11,7 +11,7 @@ const difficulties = [
   { label: 'MAX', count: LANGUAGES.length },
 ]
 
-const selectedDifficulty = ref(difficulties[1])
+const selectedDifficulty = ref(difficulties[1]!)
 
 // Font Asap, italic a bold pro dynamičtější vzhled tlačítek
 const btnBase =
